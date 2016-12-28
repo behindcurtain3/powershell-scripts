@@ -34,14 +34,14 @@ Set-ItemProperty -Path "HKLM:\Software\Microsoft\PolicyManager\default\WiFi\Allo
 # Enable SmartScreen Filter
 Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Explorer" -Name "SmartScreenEnabled" -Type String -Value "RequireAdmin"
 Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\AppHost" -Name "EnableWebContentEvaluation"
-  
+ 
+# Disable Bing Search in Start Menu
+# Write-Host "Disabling Bing Search in Start Menu..."
+# Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search" -Name "BingSearchEnabled" -Type DWord -Value 0
+ 
 # Disable Start Menu suggestions
 Write-Host "Disabling Start Menu suggestions..."
 Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SystemPaneSuggestionsEnabled" -Type DWord -Value 0
-
-# Disable Pre-installed apps
-Write-Host "Disabling Pre-installed apps..."
-Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "PreInstalledAppsEnabled" -Type DWord -Value 0
 
 # Disable Location Tracking
 Write-Host "Disabling Location Tracking..."
@@ -234,32 +234,3 @@ Write-Host "Press any key to restart your system..." -ForegroundColor Black -Bac
 $key = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
 Write-Host "Restarting..."
 Restart-Computer
-
-###################################
-# END OF WINDOWS 10 CONFIG SCRIPT #
-###################################
-
-# Custom powershell for additional setup
-
-# Apparently does nothing anymore, keep it anyways
-$registryPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
-$name = "DisableWindowsConsumerFeatures"
-$value = "1"
-IF(!(Test-Path $registryPath))
-{
-	New-Item -Path $registryPath -Force | Out-Null
-}
-New-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
-
-# Turn off silent app installs for windows 10 BS
-$registryPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
-$name = "SilentIntstalledAppsEnabled"
-$value = "0"
-Set-ItemProperty -Path $registryPath -Name $name -Value $value -PropertyType DWORD -Force | Out-Null
-
-# Make sure the default apps are uninstalled for all users
-Get-AppxPackage -AllUsers | Remove-AppxPackage
-Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online
-
-# Install common apps via boxstarter
-START http://boxstarter.org/package/nr/url?https://gist.githubusercontent.com/behindcurtain3/0d651812a4fb3cd42a8626d29e48886f/raw/20f0a2b1f4e8f4605d7e85c423abe879c826f5ea/Boxstarter
