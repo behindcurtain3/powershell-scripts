@@ -255,4 +255,4 @@ Get-AppxPackage -AllUsers | Remove-AppxPackage
 Get-AppXProvisionedPackage -online | Remove-AppxProvisionedPackage -online
 
 # Install common apps via boxstarter
-START http://boxstarter.org/package/nr/url?https://gist.githubusercontent.com/behindcurtain3/0d651812a4fb3cd42a8626d29e48886f/raw/20f0a2b1f4e8f4605d7e85c423abe879c826f5ea/Boxstarter
+START http://boxstarter.org/package/nr/url?https://raw.githubusercontent.com/behindcurtain3/powershell-scripts/master/boxstarter-win10.txt
