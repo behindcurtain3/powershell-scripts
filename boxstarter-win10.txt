@@ -1,0 +1,9 @@
+cinst googlechrome
+cinst adobereader
+cinst jre8
+cinst 7zip
+cinst vlc
+cinst dotnet4.5
+cinst vcredist2010
+cinst office365proplus
+cinst logmein.client
